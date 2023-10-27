@@ -1,0 +1,65 @@
+import java.util.Arrays;
+
+public class LocalMaximaRemove {
+
+    public static void main(String[] args) {
+       // int[] array = new int[]{-18, 21, 3, 6, 7, 65};
+       
+        int[] array = new int[1000];
+        Arrays.fill(array, 15);
+        array[0] = 20;
+        array[999] = 25;
+        array[168] = 30;
+
+        System.out.println(Arrays.toString(removeLocalMaxima(array)));
+    }
+
+    public static int[] removeLocalMaxima(int[] array){
+
+        //put your code here
+       
+        int[] result = Arrays.copyOf(array, array.length);
+
+        //case for first element
+
+        if( result[0] > result [1]){
+            int[] temp = new int[result.length - 1];
+            
+            System.arraycopy(result, 1, temp, 0, temp.length);
+            result = temp;
+ 
+        }
+
+     
+
+        int penultimulElement = 0;
+        for (int i = 1; i < result.length - 1; i++) {
+            if(i == result.length -2 ){
+                penultimulElement = result[i];
+           }
+            // Check if the current element is a local maximum
+            if (result[i] > result[i - 1] && result[i] > result[i + 1]) {
+                // If it is a local maximum, remove it from the result array
+              
+                int[] temp = new int[result.length - 1];
+                System.arraycopy(result, 0, temp, 0, i);
+                System.arraycopy(result, i + 1, temp, i, result.length - i - 1);
+                result = temp;
+            }
+        }
+
+        
+
+        //case for the last element
+        if( result[result.length -1 ] > penultimulElement){
+            int[] temp = new int[result.length - 1];
+            System.arraycopy(result, 0, temp, 0, temp.length);
+            result = temp;
+        }
+
+       System.out.println(result.length);
+       
+        return result;
+       
+    }
+}
